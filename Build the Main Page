@@ -1,0 +1,15 @@
+// pages/index.js
+import Layout from '../components/Layout';
+import PantryList from '../components/PantryList';
+import AddItemForm from '../components/AddItemForm';
+
+const Home = () => {
+  return (
+    <Layout>
+      <AddItemForm />
+      <PantryList />
+    </Layout>
+  );
+};
+
+export default Home;
