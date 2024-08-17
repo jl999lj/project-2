@@ -1,0 +1,53 @@
+// components/AddItemForm.js
+import { useState } from 'react';
+import { db } from '../lib/firebase';
+import { collection, addDoc } from 'firebase/firestore';
+import { TextField, Button, Paper } from '@mui/material';
+
+const AddItemForm = () => {
+  const [name, setName] = useState('');
+  const [quantity, setQuantity] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await addDoc(collection(db, "pantryItems"), {
+        name,
+        quantity: parseInt(quantity),
+      });
+      setName('');
+      setQuantity('');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <Paper elevation={3} style={{ padding: '20px', marginTop: '20px' }}>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Item Name"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <TextField
+          label="Quantity"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          type="number"
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)}
+        />
+        <Button type="submit" variant="contained" color="primary">
+          Add Item
+        </Button>
+      </form>
+    </Paper>
+  );
+};
+
+export default AddItemForm;
